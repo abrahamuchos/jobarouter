@@ -17,7 +17,8 @@ import About from "./pages/About.jsx";
 import Faq from "./pages/help/Faq.jsx";
 import Contact from "./pages/help/Contact.jsx";
 import NotFound from "./pages/NotFound.jsx";
-import Careers, { careersLoader } from "./pages/Careers.jsx";
+import Careers, { careersLoader } from "./pages/careers/Careers.jsx";
+import CareerDetails, { careerDetailsLoader } from "./pages/careers/CareerDetails.jsx";
 
 
 const router = createBrowserRouter(
@@ -36,6 +37,11 @@ const router = createBrowserRouter(
           index
           element={<Careers/>}
           loader={careersLoader}
+        />
+        <Route
+          path=":id"
+          element={<CareerDetails/>}
+          loader={careerDetailsLoader}
         />
       </Route>
 
