@@ -1,34 +1,61 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import {
+  createBrowserRouter,
+  Route,
+  createRoutesFromElements,
+  RouterProvider
+} from "react-router-dom";
 import './App.css'
 
+//Layout
+import RootLayout from "./layouts/RootLayout.jsx";
+import HelpLayout from "./layouts/HelpLayout.jsx";
+import CareersLayout from "./layouts/CareersLayout.jsx";
+
+//Pages
+import Home from "./pages/Home.jsx";
+import About from "./pages/About.jsx";
+import Faq from "./pages/help/Faq.jsx";
+import Contact, { contactAction } from "./pages/help/Contact.jsx";
+import NotFound from "./pages/NotFound.jsx";
+import Careers, { careersLoader } from "./pages/careers/Careers.jsx";
+import CareerDetails, { careerDetailsLoader } from "./pages/careers/CareerDetails.jsx";
+import CareersError from "./pages/careers/CareersError.jsx";
+
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path='/' element={<RootLayout/>}>
+      <Route index element={<Home/>}/>
+      <Route path='about' element={<About/>}/>
+
+      <Route path='help' element={<HelpLayout/>}>
+        <Route path='faq' element={<Faq/>}/>
+        <Route path='contact' element={<Contact/>} action={contactAction}/>
+      </Route>
+
+      <Route path="careers" element={<CareersLayout/>} errorElement={<CareersError/>}>
+        <Route
+          index
+          element={<Careers/>}
+          loader={careersLoader}
+        />
+        <Route
+          path=":id"
+          element={<CareerDetails/>}
+          loader={careerDetailsLoader}
+        />
+      </Route>
+
+      <Route path="*" element={<NotFound/>}/>
+    </Route>
+  )
+);
+
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+    <RouterProvider router={router}/>
+  );
 }
 
 export default App
