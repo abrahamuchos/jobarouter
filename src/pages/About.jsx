@@ -1,6 +1,14 @@
-import React from 'react';
+import  { useState } from 'react';
+import { Navigate } from "react-router-dom";
 
-export default function About(props) {
+export default function About() {
+  //Simulamos un auth
+  const [user, setUser] = useState('mario');
+
+  if(!user){
+    return <Navigate to='/' replace={true}/>
+  }
+
   return (
     <div className="about">
       <h2>About Us</h2>
@@ -13,6 +21,8 @@ export default function About(props) {
       <p>Architecto assumenda doloribus fuga hic illo inventore iure maxime nam,
       neque, nesciunt quod rem similique temporibus vel voluptatum? Blanditiis dolorum, eaque error hic laborum omnis
       vitae? Blanditiis deleniti magnam odit?</p>
+
+      <button onClick={()=> setUser(null)}>Logout</button>
     </div>
   );
 }
